@@ -1,0 +1,7 @@
+canvas {
+    display: block;
+    margin:auto;
+}
+
+#canvas-board { position:relative; z-index: 2; border: 1px solid black;}
+#canvas-snowfall {position:absolute; z-index: 1; left: 0px; top: 0px; visibility: hidden; width: 100%; height: 100%;}
