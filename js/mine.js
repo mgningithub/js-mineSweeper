@@ -2,6 +2,9 @@
 var board = [];
 /** 爆弾のobj値 */
 var bomb = 9
+/** クリアまでかかった時間(秒) */
+var clearTimer = 0;
+var clearSecs = 0;
 
 // obj値について。0～8が周囲の爆弾の数。9が爆弾。数値は下記のマス色に対応。
 
@@ -21,6 +24,7 @@ function getRandomIntInclusive(min, max) {
  * 盤面を初期化
  */
 function init() {
+    board = [];
     // 爆弾を設置
     for (let y = 0; y < ROWS; ++y) {
         board[y] = [];
@@ -137,7 +141,8 @@ function fill(x, y) {
 /** 負け */
 function lose() {
     removeEventListeners();
-    displayMessage('<h1>😫You lose !😢</h1><button onclick="newGame()">Replay</button>')
+    clearInterval(clearTimer);
+    showMessageForLose();
     renderAnswer();
 }
 
@@ -154,12 +159,21 @@ function checkWin() {
     }
 
     if (win) {
-        let el = document.querySelector('#popup');
-        el.className = 'hidden';
+        hidePopUp()
         removeEventListeners();
-        displayMessage('<h1>😎You win !👍</h1><button onclick="newGame()">Replay</button>')
+        clearInterval(clearTimer);
+        showMessageForWin();
         snowfall();
     }
+}
+
+/** タイマー開始 */
+function startTimeCount() {
+    clearSecs = 0;
+    clearTimer = setInterval(() => {
+        clearSecs++;
+        showMessageWhileGaming();
+    }, 1000);
 }
 
 /** ゲーム開始 */
@@ -167,8 +181,18 @@ function newGame() {
     init();
     render();
     addEventListeners();
-    stopSnowFall();
-    displayMessage(getHowToControll())
+    startTimeCount();
+    showMessageWhileGaming();
 }
 
-newGame();
+/** ゲーム開始準備 */
+function prepareGame() {
+    hidePopUp();
+    removeEventListeners();
+    clearInterval(clearTimer);
+    stopSnowFall();
+    showMessageForPrepare();
+    initCanvas();
+}
+
+prepareGame();

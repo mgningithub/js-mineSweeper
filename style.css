@@ -16,16 +16,29 @@ body {
       sans-serif;
  }
  
-#greetingOutput {
+#div-message {
     position: relative;;
     z-index: 3;
     align:'center';
-    height :110px;
+    height :70px;
 }
 
-#greetingOutput h1 {
+#div-message h2 {
     padding:2px;
-    margin :2px;
+    margin :4px;
+}
+
+#div-message p {
+    padding:0px;
+    margin :0px;
+}
+
+#div-time {
+    position: relative;;
+    z-index: 3;
+    align:'center';
+    height :20px;
+    padding:10px;
 }
 
 canvas {
@@ -53,7 +66,6 @@ canvas {
 #popup {
     position:absolute;
     color: #fff;
-    background:skyblue;
     width: 30px;
     height: 30px;
     padding: 0;
@@ -61,6 +73,7 @@ canvas {
     border-radius: 50%;
     text-align:center;
     line-height: 30px;
+    background:skyblue;
     box-shadow: 0 0 5px 5px skyblue;
     transition : opacity 100ms ease-out;
 }
@@ -74,3 +87,27 @@ canvas {
     opacity:1;
     z-index: 3;
 }
+
+select {
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+/* ボタンのCSS　*/
+.btn-gradation {
+    display: inline-block;
+    width: 130px;
+    text-align: center;
+    color: #FFF;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 5px 5px;
+    border-radius: 4px;
+    background-image: linear-gradient(-90deg, #FF006E, #FFD500);
+    transition: .5s;
+    background-size: 200%;
+  }
+  
+  .btn-gradation:hover {
+    background-position: right center;
+  }

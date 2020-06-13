@@ -2,7 +2,6 @@
 function isTouchDevice() {
     return ('ontouchstart' in document) && ('orientation' in window)
 }
-console.log(isTouchDevice());
 
 /** 操作説明を取得 */
 function getHowToControll() {
@@ -21,6 +20,7 @@ function addEventListeners() {
         canvas.addEventListener('touchstart', onTouchStart, false);
         canvas.addEventListener('touchend', onTouchEnd, false);
         canvas.addEventListener('touchmove', onTouchMove, false);
+        canvas.addEventListener('touchcancel', onTouchMove, false);
     } else {
         canvas.addEventListener('mousedown', onClick, false);
     }
@@ -36,6 +36,7 @@ function removeEventListeners() {
         canvas.removeEventListener('touchstart', onTouchStart, false);
         canvas.removeEventListener('touchend', onTouchEnd, false);
         canvas.removeEventListener('touchmove', onTouchMove, false);
+        canvas.removeEventListener('touchcancel', onTouchMove, false);
     } else {
         canvas.removeEventListener('mousedown', onClick, false);
     }
@@ -90,16 +91,18 @@ const HOLDTIME = 15;
  * 一定時間を超えたら旗をトグルするタイマーをセット
  */
 function onTouchStart(e) {
-    position = getPosition(e);
-    count = 0;
-    timer = setInterval(() => {
-        count++;
-        if (count >= HOLDTIME) {
-            clearInterval(timer);
-            popUp(position.x_window, position.y_window);
-            toggleFlag(position.x, position.y);
-        }
-    }, 10);
+    if (e.touches.length === 1) { //1本指でのタッチ時のみ
+        position = getPosition(e);
+        count = 0;
+        timer = setInterval(() => {
+            count++;
+            if (count >= HOLDTIME) {
+                clearInterval(timer);
+                popUp(position.x_window, position.y_window);
+                toggleFlag(position.x, position.y);
+            }
+        }, 10);
+    }
 }
 
 /**
@@ -116,7 +119,7 @@ function onTouchEnd(e) {
 }
 
 /**
- * タッチが要素外に出た時
+ * タッチが動いた時、キャンセル
  */
 function onTouchMove(e) {
     clearInterval(timer);

@@ -1,12 +1,31 @@
 /*
  現在の盤面の状態を描画する処理
 */
-
-const COLS = 10, ROWS = 20; // 横10、縦20マス
 const canvas = document.getElementById('canvas-board');
 const ctx = canvas.getContext('2d');
-const W = 300, H = 600; // キャンバスサイズ
-const BLOCK_W = W / COLS, BLOCK_H = H / ROWS; // マス幅
+
+let COLS, ROWS // 横、縦マス
+let BLOCK_W, BLOCK_H; // マス幅
+let W, H; // キャンバスサイズ
+
+/**
+ * キャンバスサイズとマス数を定義
+ */
+function initCanvas() {
+    let el = document.getElementById("level");
+    let size = JSON.parse(el.value);
+    // 横、縦マス
+    COLS = size.x;
+    ROWS = size.y;
+    // マス幅
+    BLOCK_W = 30;
+    BLOCK_H = 30;
+    // キャンバスサイズ
+    W = COLS * BLOCK_W;
+    H = ROWS * BLOCK_H;
+    canvas.width = W;
+    canvas.height = H;
+}
 
 /**
  * 盤面とマスを描画する
@@ -68,27 +87,40 @@ function renderAnswer() {
     }
 }
 
-/**
- * メッセージ表示
- * @param msg メッセージ
- */
-function displayMessage(msg) {
-    document.getElementById('greetingOutput').innerHTML = msg;
+/** 準備画面 */
+function showMessageForPrepare() {
+    let msg = '<h2>💣 Mine Sweeper 🚩</h2>'
+    msg += '<select id="level" name="level" size="1" onChange="initCanvas()">';
+    msg += `<option value='{ "x":10,  "y":10 }' >Easy (5 x 10)</option>`;
+    msg += `<option value='{ "x":10,  "y":20 }' selected>Normal (10 x 20)</option>`;
+    msg += `<option value='{ "x":12,  "y":50 }'>Hard (12 x 50)</option>`;
+    msg += `<option value='{ "x":130, "y":130 }'>Very hard (130 x 130)</option>`; //mobile Safari の canvas 面積の制限は (288MB / 16,777,216px(4096px * 4096px 相当)) 
+    msg += '</select>';
+    msg += '  <button onclick="newGame()" class="btn-gradation">Game start</button>';
+    document.getElementById('div-message').innerHTML = msg;
+    document.getElementById('div-time').innerHTML = '';
 }
 
-/** タッチ長押しで旗を立てた事を明示するポップアップ
- *  @x 表示中の画面に対する絶対座標x
- *  @y 表示中の画面に対する絶対座標y
-*/
-function popUp(x_window, y_window) {
-    let el = document.querySelector('#popup');
-    let elHeight = el.getBoundingClientRect().height;
-    let elWidth = el.getBoundingClientRect().width;
-    el.style.top = (y_window + window.pageYOffset - elHeight - 20) + 'px';
-    el.style.left = (x_window + window.pageXOffset - (elWidth / 2)) + 'px';
-    el.className = 'active';
-    setTimeout(() => {
-        let el = document.querySelector('#popup');
-        el.className = 'hidden';
-    }, 400);
+/** ゲーム中画面 */
+function showMessageWhileGaming() {
+    let msg = '<button onclick="prepareGame()" class="btn-gradation">Reset</button>';
+    msg += (isTouchDevice()) ?
+        '<p>(👆) Tap : Open a cell</p><p>((👆)) Long tap : Put up a flag</p>' :
+        '<p>👈Left click : Open a cell</p><p>👉Right click : Put up a flag</p>';
+    document.getElementById('div-message').innerHTML = msg;
+    document.getElementById('div-time').innerHTML = `⏱ ${clearSecs} secs`;
+}
+
+/** 負け画面 */
+function showMessageForLose() {
+    let msg = '<h2>😫You lose !😢</h2>'
+    msg += '<button onclick="prepareGame()" class="btn-gradation">Try again</button>';
+    document.getElementById('div-message').innerHTML = msg;
+}
+
+/** 勝ち画面 */
+function showMessageForWin() {
+    let msg = '<h2>😎You win !👍</h2>'
+    msg += '<button onclick="prepareGame()" class="btn-gradation">New game</button>';
+    document.getElementById('div-message').innerHTML = msg;
 }
