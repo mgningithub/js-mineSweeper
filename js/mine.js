@@ -154,6 +154,8 @@ function checkWin() {
     }
 
     if (win) {
+        let el = document.querySelector('#popup');
+        el.className = 'hidden';
         removeEventListeners();
         displayMessage('<h1>😎You win !👍</h1><button onclick="newGame()">Replay</button>')
         snowfall();

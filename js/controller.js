@@ -7,9 +7,9 @@ console.log(isTouchDevice());
 /** 操作説明を取得 */
 function getHowToControll() {
     if (isTouchDevice()) {
-        return '<h1>How to Play</h1>Tap : Open a cell<br>Long tap : Toggle a flag'
+        return '<h1>💡How to Play❓</h1>(👆) Tap : Open a cell<br>((👆)) Long tap : Toggle a flag'
     } else {
-        return '<h1>How to Play</h1>Left click : Open a cell<br>Right click : Toggle a flag'
+        return '<h1>💡How to Play❓</h1>👈Left click : Open a cell<br>👉Right click : Toggle a flag'
     }
 }
 
@@ -95,9 +95,9 @@ function onTouchStart(e) {
     timer = setInterval(() => {
         count++;
         if (count >= HOLDTIME) {
-            toggleFlag(position.x, position.y);
             clearInterval(timer);
             popUp(position.x_window, position.y_window);
+            toggleFlag(position.x, position.y);
         }
     }, 10);
 }

@@ -1,3 +1,12 @@
+* {
+    /* タッチ長押し対策 */
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+}
+
 body {
     font-family: "Helvetica Neue",
       Arial,
@@ -11,7 +20,7 @@ body {
     position: relative;;
     z-index: 3;
     align:'center';
-    height :100px;
+    height :110px;
 }
 
 #greetingOutput h1 {
@@ -22,12 +31,6 @@ body {
 canvas {
     display: block;
     margin:auto;
-    /* タッチ長押し対策 */
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    -webkit-touch-callout: none;
 }
 
 #canvas-board {
