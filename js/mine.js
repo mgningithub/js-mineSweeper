@@ -136,10 +136,8 @@ function fill(x, y) {
 
 /** 負け */
 function lose() {
-    canvas.removeEventListener('mousedown', onClick, false);
-    canvas.removeEventListener('mousemove', onMove, false);
-    canvas.removeEventListener('contextmenu', function (e) { e.preventDefault(); }, false);
-    displayMessage('You lose !<br>Push F5 to restart.')
+    removeEventListeners();
+    displayMessage('<h1>😫You lose !😢</h1><button onclick="newGame()">Replay</button>')
     renderAnswer();
 }
 
@@ -156,10 +154,8 @@ function checkWin() {
     }
 
     if (win) {
-        canvas.removeEventListener('mousedown', onClick, false);
-        canvas.removeEventListener('mousemove', onMove, false);
-        canvas.removeEventListener('contextmenu', function (e) { e.preventDefault(); }, false);
-        displayMessage('You win !')
+        removeEventListeners();
+        displayMessage('<h1>😎You win !👍</h1><button onclick="newGame()">Replay</button>')
         snowfall();
     }
 }
@@ -168,6 +164,9 @@ function checkWin() {
 function newGame() {
     init();
     render();
+    addEventListeners();
+    stopSnowFall();
+    displayMessage(getHowToControll())
 }
 
 newGame();

@@ -28,7 +28,7 @@ function render() {
             let val = ''
             switch (board[y][x].disp) {
                 case 0: ctx.fillStyle = 'gray'; val = ''; break; // 未開示
-                case 2: ctx.fillStyle = 'yellow'; val = '🏴'; break; // 旗
+                case 2: ctx.fillStyle = 'yellow'; val = '🚩'; break; // 旗
                 default: // 開示済み
                     if (board[y][x].obj == bomb) {
                         ctx.fillStyle = colors[board[y][x].obj]; val = '💣'; break; // 爆弾
@@ -61,6 +61,7 @@ function renderAnswer() {
     for (let x = 0; x < COLS; ++x) {
         for (let y = 0; y < ROWS; ++y) {
             if (board[y][x].obj == bomb && board[y][x].disp !== 1) {
+                ctx.fillStyle = 'gray'; // 未開示の色
                 drawBlock(x, y, '💣');
             }
         }
@@ -73,4 +74,21 @@ function renderAnswer() {
  */
 function displayMessage(msg) {
     document.getElementById('greetingOutput').innerHTML = msg;
+}
+
+/** タッチ長押しで旗を立てた事を明示するポップアップ
+ *  @x 表示中の画面に対する絶対座標x
+ *  @y 表示中の画面に対する絶対座標y
+*/
+function popUp(x_window, y_window) {
+    let el = document.querySelector('#popup');
+    let elHeight = el.getBoundingClientRect().height;
+    let elWidth = el.getBoundingClientRect().width;
+    el.style.top = (y_window + window.pageYOffset - elHeight - 20) + 'px';
+    el.style.left = (x_window + window.pageXOffset - (elWidth / 2)) + 'px';
+    el.className = 'active';
+    setTimeout(() => {
+        let el = document.querySelector('#popup');
+        el.className = 'hidden';
+    }, 400);
 }

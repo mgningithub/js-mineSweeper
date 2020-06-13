@@ -1,3 +1,5 @@
+let timerForSnowFall;
+
 function snowfall() {
     //canvas init
     var canvas = document.getElementById("canvas-snowfall");
@@ -100,5 +102,11 @@ function snowfall() {
     }
 
     //animation loop
-    setInterval(draw, 20);
+    timerForSnowFall = setInterval(draw, 20);
+}
+
+function stopSnowFall() {
+    clearInterval(timerForSnowFall);
+    var canvas = document.getElementById("canvas-snowfall");
+    canvas.style.visibility = "hidden"; // 非表示
 }
