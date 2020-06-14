@@ -2,12 +2,12 @@ let timerForSnowFall;
 
 function snowfall() {
     //canvas init
-    var canvas = document.getElementById("canvas-snowfall");
-    var ctx = canvas.getContext("2d");
+    let canvas = document.getElementById("canvas-snowfall");
+    let ctx = canvas.getContext("2d");
 
     //canvas dimensions
-    var W = window.innerWidth;
-    var H = window.innerHeight;
+    let W = document.documentElement.scrollWidth;
+    let H = document.documentElement.scrollHeight;
     canvas.width = W;
     canvas.height = H;
     canvas.style.visibility = "visible"; // 非表示にしていたキャンバスを表示

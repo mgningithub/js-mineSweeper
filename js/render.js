@@ -7,6 +7,7 @@ const ctx = canvas.getContext('2d');
 let COLS, ROWS // 横、縦マス
 let BLOCK_W, BLOCK_H; // マス幅
 let W, H; // キャンバスサイズ
+let previousLevel; // 次回ゲーム用にレベルを記憶
 
 /**
  * キャンバスサイズとマス数を定義
@@ -14,6 +15,8 @@ let W, H; // キャンバスサイズ
 function initCanvas() {
     let el = document.getElementById("level");
     let size = JSON.parse(el.value);
+    // 次回ゲーム用にレベルを記憶
+    previousLevel = el.value;
     // 横、縦マス
     COLS = size.x;
     ROWS = size.y;
@@ -91,7 +94,7 @@ function renderAnswer() {
 function showMessageForPrepare() {
     let msg = '<h2>💣 Mine Sweeper 🚩</h2>'
     msg += '<select id="level" name="level" size="1" onChange="initCanvas()">';
-    msg += `<option value='{ "x":10,  "y":10 }' >Easy (5 x 10)</option>`;
+    msg += `<option value='{ "x":10,  "y":10 }'>Easy (5 x 10)</option>`;
     msg += `<option value='{ "x":10,  "y":20 }' selected>Normal (10 x 20)</option>`;
     msg += `<option value='{ "x":12,  "y":50 }'>Hard (12 x 50)</option>`;
     msg += `<option value='{ "x":130, "y":130 }'>Very hard (130 x 130)</option>`; //mobile Safari の canvas 面積の制限は (288MB / 16,777,216px(4096px * 4096px 相当)) 
@@ -99,6 +102,7 @@ function showMessageForPrepare() {
     msg += '  <button onclick="newGame()" class="btn-gradation">Game start</button>';
     document.getElementById('div-message').innerHTML = msg;
     document.getElementById('div-time').innerHTML = '';
+    if (previousLevel) { document.getElementById('level').value = previousLevel; }
 }
 
 /** ゲーム中画面 */
